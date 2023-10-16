@@ -1,0 +1,22 @@
+__parent__: config/shapenet.yaml
+
+model:
+  params:
+    num_classes: null
+
+trainer:
+  params:
+    mixed_precision: no
+
+dataset:
+  params:
+    ds_opt:
+      params:
+        cates: chair
+    dl_kwargs:
+      batch_size: 16
+
+sched:
+  params:
+    factor: 0.9
+    patience: 10

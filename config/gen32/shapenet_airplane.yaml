@@ -1,0 +1,16 @@
+__parent__: config/shapenet.yaml
+
+model:
+  params:
+    num_classes: null
+
+dataset:
+  params:
+    ds_opt:
+      params:
+        cates: airplane
+
+sched:
+  params:
+    factor: 0.9
+    patience: 10
