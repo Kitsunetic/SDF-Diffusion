@@ -1,10 +1,10 @@
-exp_dir: results/after-rebuttal/ldm/generation3d/32
+exp_dir: results/gen32
 epochs: 10000
 seed: 0
 memo: 
 
 model:
-  target: src.models.ldm.unet_sr3.UNet
+  target: src.models.unet.UNet
   params:
     dims: 3
     in_channel: 1
@@ -25,7 +25,7 @@ model:
 
 ddpm:
   train: &diffusion
-    target: src.models.ldm.diffusion2.GaussianDiffusion
+    target: src.models.diffusion.GaussianDiffusion
     params:
       loss_type: l2
       model_mean_type: x_0
@@ -39,7 +39,7 @@ ddpm:
   valid: *diffusion
 
 preprocessor:
-  target: src.models.ldm.trainers.gen3d.GEN3dPreprocessor
+  target: src.models.trainers.gen3d.GEN3dPreprocessor
   params:
     do_augmentation: no
     sdf_clip: 0.0625
@@ -48,7 +48,7 @@ preprocessor:
     downsample: 1
 
 trainer:
-  target: src.models.ldm.trainers.gen3d.GEN3dTrainer
+  target: src.models.trainers.gen3d.GEN3dTrainer
   params:
     find_unused_parameters: no
     sample_at_least_per_epochs: 20
@@ -64,11 +64,11 @@ dataset:
     ds_opt:
       target: src.datasets.dogn64.DOGN64SDF
       params:
-        datafile: /dev/shm/jh/data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
+        datafile: ../data/sdf-diffusion/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
         cates: all
     dl_kwargs:
       batch_size: 32
-      num_workers: 2
+      num_workers: 8
       pin_memory: yes
       persistent_workers: yes
 
