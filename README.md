@@ -5,16 +5,16 @@ Diffusion-Based Signed Distance Fields for 3D Shape Generation (CVPR 2023)
 [**Paper**](https://openaccess.thecvf.com/content/CVPR2023/html/Shim_Diffusion-Based_Signed_Distance_Fields_for_3D_Shape_Generation_CVPR_2023_paper.html) | [**Project Page**](https://kitsunetic.github.io/sdf-diffusion/)
 
 
-
-
 ## Requirements
 
+- pytorch
 - pytorch3d
-
-```
-pip install git+https://github.com/Kitsunetic/kitsu@231030 # kitsu (for marching cubes)
-conda install pytorch3d -c pytorch3d
-```
+- h5py
+- einops
+- scipy
+- scikit-image
+- tqdm
+- point-cloud-utils
 
 ## Dataset
 
@@ -47,34 +47,29 @@ The dataset can be used only for non-commercial research and educational purpose
 
 ## Training
 
-### Unconditional Generation
+### Single Category Unconditional Generation
 
-```sh
-# airplane
-python main.py config/shapenet_airplane.yaml
+TBD
 
-# car
-python main.py config/shapenet_car.yaml
+### Category-Conditioned Generation
 
-# chair
-python main.py config/shapenet_chair.yaml
-```
+TBD
 
-### Category Conditioned Generation
 
-```sh
-python main.py config/shapenet.yaml
-```
 
 ## Inference & Evaluation
 
-### Generation 32
+### Pretrained Models
 
+TBD
 
-### Super-Resolution 32 -> 64
+### Unconditional Generation
 
+TBD
 
-### Super-Resolution 64 -> 128
+### Category-Conditioned Generation
+
+TBD
 
 
 
