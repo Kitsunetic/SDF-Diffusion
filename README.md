@@ -47,29 +47,13 @@ The dataset can be used only for non-commercial research and educational purpose
 
 ## Training
 
-### Single Category Unconditional Generation
-
-TBD
-
-### Category-Conditioned Generation
-
-TBD
+Comming Soon
 
 
 
 ## Inference & Evaluation
 
-### Pretrained Models
-
-TBD
-
-### Unconditional Generation
-
-TBD
-
-### Category-Conditioned Generation
-
-TBD
+Comming Soon
 
 
 
