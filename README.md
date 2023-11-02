@@ -45,15 +45,35 @@ To use the dataset, please cite ShapeNet:
 ```
 The dataset can be used only for non-commercial research and educational purpose.
 
+
+
 ## Training
 
 ### Single Category Unconditional Generation
 
-TBD
+```sh
+# generation (resolution 32)
+python main.py config/gen32/shapenet_{airplane|car|chair}.yaml
 
-### Category-Conditioned Generation
+# super resolution (resolution 32 -> 64)
+python main.py config/sr32_64/shapenet_{airplane|car|chair}.yaml
 
-TBD
+# super resolution (resolution 64 -> 128)
+python main.py config/sr64_128/shapenet_{airplane|car|chair}.yaml
+```
+
+### Category Conditioned Generation
+
+```sh
+# generation (resolution 32)
+python main.py config/gen32/shapenet.yaml
+
+# super resolution (resolution 32 -> 64)
+python main.py config/sr32_64/shapenet.yaml
+
+# super resolution (resolution 64 -> 128)
+python main.py config/sr64_128/shapenet.yaml
+```
 
 
 
@@ -70,6 +90,7 @@ TBD
 ### Category-Conditioned Generation
 
 TBD
+
 
 
 
