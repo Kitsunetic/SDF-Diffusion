@@ -64,7 +64,7 @@ dataset:
     ds_opt:
       target: src.datasets.dogn64.DOGN64SDF
       params:
-        datafile: ../data/sdf-diffusion/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
+        datafile: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
         cates: all
     dl_kwargs:
       batch_size: 32

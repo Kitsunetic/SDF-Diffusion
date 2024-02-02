@@ -1,20 +1,102 @@
-__parent__: config/shapenet.yaml
+exp_dir: results/gen32
+epochs: 10000
+seed: 0
+memo: 
 
 model:
+  target: src.models.unet.UNet
   params:
+    dims: 3
+    in_channel: 1
+    out_channel: 1
+    inner_channel: 64
+    norm_groups: 32
+    channel_mults: [1, 2, 4] # 32, 16, 8
+    attn_res: [8]
+    cattn_res: []
+    res_blocks: 4
+    dropout: 0.1
+    with_noise_level_emb: yes
+    use_affine_level: yes
+    image_size: 32
     num_classes: null
+    additive_class_emb: yes
+    use_nd_dropout: no
+
+ddpm:
+  train: &diffusion
+    target: src.models.diffusion.GaussianDiffusion
+    params:
+      loss_type: l2
+      model_mean_type: x_0
+      schedule_kwargs:
+        schedule: linear
+        n_timestep: 1000
+        linear_start: 1.e-4
+        linear_end: 2.e-2
+        ddim_S: 50
+        ddim_eta: 0.0
+  valid: *diffusion
+
+preprocessor:
+  target: src.models.trainers.gen3d.GEN3dPreprocessor
+  params:
+    do_augmentation: no
+    sdf_clip: 0.0625
+    mean: 0.0
+    std: 0.0625
+    downsample: 1
 
 trainer:
+  target: src.models.trainers.gen3d.GEN3dTrainer
   params:
-    mixed_precision: no
+    find_unused_parameters: no
+    sample_at_least_per_epochs: 20
+    mixed_precision: yes
+    n_samples_per_class: 1
+    n_rows: 1
+    use_ddim: yes
+    ema_decay: 0.99
 
 dataset:
+  target: src.datasets.dogn64.build_dataloaders
   params:
     ds_opt:
+      target: src.datasets.dogn64.DOGN64SDF
       params:
+        datafile: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
         cates: car
+    dl_kwargs:
+      batch_size: 32
+      num_workers: 8
+      pin_memory: yes
+      persistent_workers: yes
+
+optim:
+  target: torch.optim.Adam
+  params:
+    lr: 0.0001
+    weight_decay: 0.0
+
+train:
+  clip_grad: 1.0
+  num_saves: 4
+
+criterion:
+  target: torch.nn.MSELoss
 
 sched:
+  target: src.sched.ReduceLROnPlateauWithWarmup
   params:
+    mode: min
     factor: 0.9
     patience: 10
+    verbose: yes
+    threshold: 1.e-8
+    min_lr: 1.e-5
+    warmup_steps: 1
+  step_on_batch: no
+  step_on_epoch: yes
+
+sample:
+  epochs_to_save: 9
