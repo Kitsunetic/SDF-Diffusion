@@ -59,10 +59,10 @@ trainer:
     ema_decay: 0.99
 
 dataset:
-  target: src.datasets.dogn64.build_dataloaders
+  target: src.datasets.dataset32.build_dataloaders
   params:
     ds_opt:
-      target: src.datasets.dogn64.DOGN64SDF
+      target: src.datasets.dataset32.Dataset32
       params:
         datafile: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
         cates: car
@@ -86,7 +86,7 @@ criterion:
   target: torch.nn.MSELoss
 
 sched:
-  target: src.sched.ReduceLROnPlateauWithWarmup
+  target: src.scheduler.ReduceLROnPlateauWithWarmup
   params:
     mode: min
     factor: 0.9
