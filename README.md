@@ -1,8 +1,13 @@
 # SDF-Diffusion
 
+
+
+
 Diffusion-Based Signed Distance Fields for 3D Shape Generation (CVPR 2023)
 
 [**Paper**](https://openaccess.thecvf.com/content/CVPR2023/html/Shim_Diffusion-Based_Signed_Distance_Fields_for_3D_Shape_Generation_CVPR_2023_paper.html) | [**Project Page**](https://kitsunetic.github.io/sdf-diffusion/)
+
+
 
 
 ## Requirements
@@ -16,6 +21,9 @@ Diffusion-Based Signed Distance Fields for 3D Shape Generation (CVPR 2023)
 - tqdm
 - point-cloud-utils
 
+
+
+
 ## Dataset
 
 The preprocessed dataset can be downloaded in [Huggingface](https://huggingface.co/datasets/kitsunetic/SDF-Diffusion-Dataset)
@@ -25,16 +33,32 @@ The dataset (~13GB for resolution 32, ~50GB for 64) should be unzipped and locat
 ```
 SDF-Diffusion
 ├── config
+    ├── gen32
+        ├── airplane.yaml
+        ├── ...
+        ├── shapenet.yaml
+    ├── sr32_64
+        ├── airplane.yaml
+        ├── ...
+        ├── shapenet.yaml
 ├── src
-├── ...
+    ├── ...
+├── results  # pretrained checkpoints
+    ├── gen32
+        ├── airplane.pth
+        ├── ...
+        ├── shapenet.pth
+    ├── sr32_64
+        ├── airplane.pth
+        ├── ...
+        ├── shapenet.pth
 ├── main.py
 data
-├── sdf-diffusion
-│   ├── sdf.res32.level0.0500.PC15000.pad0.20.hdf5
-│   ├── sdf.res64.level0.0313.PC15000.pad0.20.hdf5
+├── sdf.res32.level0.0500.PC15000.pad0.20.hdf5
+├── sdf.res64.level0.0313.PC15000.pad0.20.hdf5
 ```
 
-To use the dataset, please cite ShapeNet:
+Before downloading the dataset, please create [ShapeNet webpage](https://shapenet.org) and consider citing ShapeNet:
 ```bib
 @article{chang2015shapenet,
   title={Shapenet: An information-rich 3d model repository},
@@ -47,19 +71,26 @@ The dataset can be used only for non-commercial research and educational purpose
 
 
 
+
+## Demo
+
+You can download pretrained checkpoints from [here](), then unzip the zip file.
+
+You can find demo scripts in [unconditional](./scripts/demo-single_category.ipynb) and [category-conditional](./scripts/demo-multi-category.ipynb).
+
+
+
+
 ## Training
 
 ### Single Category Unconditional Generation
 
 ```sh
 # generation (resolution 32)
-python main.py config/gen32/shapenet_{airplane|car|chair}.yaml
+python main.py config/gen32/{airplane|car|chair}.yaml
 
 # super resolution (resolution 32 -> 64)
-python main.py config/sr32_64/shapenet_{airplane|car|chair}.yaml
-
-# super resolution (resolution 64 -> 128)
-python main.py config/sr64_128/shapenet_{airplane|car|chair}.yaml
+python main.py config/sr32_64/{airplane|car|chair}.yaml
 ```
 
 ### Category Conditioned Generation
@@ -70,10 +101,8 @@ python main.py config/gen32/shapenet.yaml
 
 # super resolution (resolution 32 -> 64)
 python main.py config/sr32_64/shapenet.yaml
-
-# super resolution (resolution 64 -> 128)
-python main.py config/sr64_128/shapenet.yaml
 ```
+
 
 
 
