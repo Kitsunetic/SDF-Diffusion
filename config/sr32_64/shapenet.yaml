@@ -1,19 +1,18 @@
-exp_dir: results/gen32
-epochs: 10000
+exp_dir: results/sr32_64
+epochs: 1000
 seed: 0
 memo: 
 
 model:
-  target: src.models.unet.UNet
+  target: src.models.unet_sr3.UNet
   params:
     dims: 3
-    in_channel: 1
+    in_channel: 2
     out_channel: 1
     inner_channel: 64
     norm_groups: 32
-    channel_mults: [1, 2, 4] # 32, 16, 8
+    channel_mults: [1, 2, 4]
     attn_res: [8]
-    cattn_res: []
     res_blocks: 4
     dropout: 0.1
     with_noise_level_emb: yes
@@ -27,7 +26,7 @@ ddpm:
   train: &diffusion
     target: src.models.diffusion.GaussianDiffusion
     params:
-      loss_type: l2
+      loss_type: l1
       model_mean_type: x_0
       schedule_kwargs:
         schedule: linear
@@ -39,33 +38,33 @@ ddpm:
   valid: *diffusion
 
 preprocessor:
-  target: src.models.trainers.gen3d.GEN3dPreprocessor
+  target: src.models.trainers.sr3d.SR3dPreprocessor
   params:
-    do_augmentation: no
-    sdf_clip: 0.0625
-    mean: 0.0
-    std: 0.0625
+    do_augmentation: yes
+    sdf_clip: [0.0625, 0.03125]
+    mean: [0.0, 0.0]
+    std: [0.0625, 0.03125]
+    patch_size: 32
     downsample: 1
 
 trainer:
-  target: src.models.trainers.gen3d.GEN3dTrainer
+  target: src.models.trainers.sr3d.SR3dTrainer
   params:
     find_unused_parameters: no
     sample_at_least_per_epochs: 20
     mixed_precision: yes
-    n_samples_per_class: 1
-    n_rows: 1
+    n_samples_per_class: 12
+    n_rows: 6
     use_ddim: yes
     ema_decay: 0.99
 
 dataset:
-  target: src.datasets.dataset32.build_dataloaders
+  target: src.datasets.dataset_sr.build_dataloaders
   params:
-    ds_opt:
-      target: src.datasets.dataset32.Dataset32
-      params:
-        datafile: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
-        cates: all
+    ds_kwargs:
+      datafile_lr: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
+      datafile_hr: ../data/sdf.res64.level0.0313.PC15000.pad0.20.hdf5
+      cates: all
     dl_kwargs:
       batch_size: 32
       num_workers: 8
@@ -80,7 +79,7 @@ optim:
 
 train:
   clip_grad: 1.0
-  num_saves: 4
+  num_saves: 10
 
 criterion:
   target: torch.nn.MSELoss

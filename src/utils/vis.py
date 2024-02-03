@@ -1,4 +1,3 @@
-import mcubes
 import numpy as np
 import point_cloud_utils as pcu
 import torch
@@ -241,58 +240,3 @@ def save_sdf_as_mesh(path, sdf, safe=False):
     """
     verts, faces = sdfs_to_meshes_np(sdf[None], safe=safe)
     pcu.save_mesh_vf(str(path), verts[0], faces[0])
-
-
-def udf2mesh(udf, grad, b_max, b_min, resolution):
-    """
-    - udf: r r r, numpy
-    - grad: r r r 3, numpy
-    """
-    v_all = []
-    f_all = []
-    threshold = 0.005  # accelerate extraction
-    v_num = 0
-    for i in range(resolution - 1):
-        for j in range(resolution - 1):
-            for k in range(resolution - 1):
-                ndf_loc = udf[i : i + 2]
-                ndf_loc = ndf_loc[:, j : j + 2, :]
-                ndf_loc = ndf_loc[:, :, k : k + 2]
-                if np.min(ndf_loc) > threshold:
-                    continue
-                grad_loc = grad[i : i + 2]
-                grad_loc = grad_loc[:, j : j + 2, :]
-                grad_loc = grad_loc[:, :, k : k + 2]
-
-                res = np.ones((2, 2, 2))
-                for ii in range(2):
-                    for jj in range(2):
-                        for kk in range(2):
-                            if np.dot(grad_loc[0][0][0], grad_loc[ii][jj][kk]) < 0:
-                                res[ii][jj][kk] = -ndf_loc[ii][jj][kk]
-                            else:
-                                res[ii][jj][kk] = ndf_loc[ii][jj][kk]
-
-                if res.min() < 0:
-                    vertices, triangles = mcubes.marching_cubes(res, 0.0)
-                    # print(vertices)
-                    # vertices -= 1.5
-                    # vertices /= 128
-                    vertices[:, 0] += i  # / resolution
-                    vertices[:, 1] += j  # / resolution
-                    vertices[:, 2] += k  # / resolution
-                    triangles += v_num
-                    # vertices =
-                    # vertices[:,1] /= 3  # TODO
-                    v_all.append(vertices)
-                    f_all.append(triangles)
-
-                    v_num += vertices.shape[0]
-                    # print(v_num)
-
-    v_all = np.concatenate(v_all)
-    f_all = np.concatenate(f_all)
-    # Create mesh
-    v_all = v_all / (resolution - 1.0) * (b_max - b_min)[None, :] + b_min[None, :]
-
-    return v_all, f_all

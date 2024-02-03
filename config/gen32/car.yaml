@@ -19,7 +19,7 @@ model:
     with_noise_level_emb: yes
     use_affine_level: yes
     image_size: 32
-    num_classes: 13
+    num_classes: null
     additive_class_emb: yes
     use_nd_dropout: no
 
@@ -65,7 +65,7 @@ dataset:
       target: src.datasets.dataset32.Dataset32
       params:
         datafile: ../data/sdf.res32.level0.0500.PC15000.pad0.20.hdf5
-        cates: all
+        cates: car
     dl_kwargs:
       batch_size: 32
       num_workers: 8
@@ -90,7 +90,7 @@ sched:
   params:
     mode: min
     factor: 0.9
-    patience: 5
+    patience: 10
     verbose: yes
     threshold: 1.e-8
     min_lr: 1.e-5

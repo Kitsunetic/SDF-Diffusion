@@ -1,9 +1,11 @@
 import warnings
+from math import inf
 
 import numpy as np
-from torch._six import inf
 from torch.optim import Optimizer
 from torch.optim.lr_scheduler import LambdaLR
+
+# from torch._six import inf
 
 EPOCH_DEPRECATION_WARNING = (
     "The epoch parameter in `scheduler.step()` was not necessary and is being "
@@ -87,7 +89,6 @@ class ReduceLROnPlateauWithWarmup(object):
         verbose=False,
         warmup_steps=1,
     ):
-
         if factor >= 1.0:
             raise ValueError("Factor should be < 1.0.")
         self.factor = factor
