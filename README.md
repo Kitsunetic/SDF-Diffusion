@@ -42,7 +42,11 @@ SDF-Diffusion
         ├── ...
         ├── shapenet.yaml
 ├── src
+    ├── datasets  # dataset-related codes
+    ├── models  # network architectures
+    ├── utils
     ├── ...
+    ├── trainer.py  # custom trainer
 ├── results  # pretrained checkpoints
     ├── gen32
         ├── airplane.pth
@@ -51,8 +55,9 @@ SDF-Diffusion
     ├── sr32_64
         ├── airplane.pth
         ├── ...
-        ├── shapenet.pth
+        ├── shapenet.pth        
 ├── main.py
+
 data
 ├── sdf.res32.level0.0500.PC15000.pad0.20.hdf5
 ├── sdf.res64.level0.0313.PC15000.pad0.20.hdf5
@@ -74,7 +79,8 @@ The dataset can be used only for non-commercial research and educational purpose
 
 ## Demo
 
-You can download pretrained checkpoints from [here](), then unzip the zip file.
+You can download pretrained checkpoints for [unconditional](https://github.com/Kitsunetic/SDF-Diffusion/releases/download/checkpoint/gen32.zip) and [category-conditional](https://github.com/Kitsunetic/SDF-Diffusion/releases/download/checkpoint/sr32_64.zip).
+Please unzip the `.zip` files in `./results` folder.
 
 You can find demo scripts in [unconditional](./scripts/demo-single_category.ipynb) and [category-conditional](./scripts/demo-multi-category.ipynb).
 
@@ -93,7 +99,7 @@ python main.py config/gen32/{airplane|car|chair}.yaml
 python main.py config/sr32_64/{airplane|car|chair}.yaml
 ```
 
-### Category Conditioned Generation
+### Category Conditional Generation
 
 ```sh
 # generation (resolution 32)
@@ -104,7 +110,7 @@ python main.py config/sr32_64/shapenet.yaml
 ```
 
 
-
+<!-- 
 
 ## Inference & Evaluation
 
@@ -120,7 +126,7 @@ TBD
 
 TBD
 
-
+ -->
 
 
 ## Citation
