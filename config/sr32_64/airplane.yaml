@@ -24,7 +24,7 @@ model:
 
 ddpm:
   train: &diffusion
-    target: src.models.diffusion2.GaussianDiffusion
+    target: src.models.diffusion.GaussianDiffusion
     params:
       loss_type: l1
       model_mean_type: x_0
