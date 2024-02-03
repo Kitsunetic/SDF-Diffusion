@@ -114,17 +114,7 @@ python main.py config/sr32_64/shapenet.yaml
 
 ## Inference & Evaluation
 
-### Pretrained Models
-
-TBD
-
-### Unconditional Generation
-
-TBD
-
-### Category-Conditioned Generation
-
-TBD
+Comming Soon
 
  -->
 
