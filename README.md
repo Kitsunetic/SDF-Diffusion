@@ -19,7 +19,7 @@ Diffusion-Based Signed Distance Fields for 3D Shape Generation (CVPR 2023)
 - scipy
 - scikit-image
 - tqdm
-- point-cloud-utils
+- point-cloud-utils==0.29.0
 
 
 
